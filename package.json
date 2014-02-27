@@ -1,0 +1,38 @@
+{
+  "name": "hubot-greetings",
+  "description": "Hubot greets everyone with a customizable greeting.",
+  "version": "1.0.0",
+  "author": "Ash Wilson <smashwilson@gmail.com>",
+  "license": "MIT",
+
+  "keywords": [
+    "hubot",
+    "hubot-scripts"
+  ],
+
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/smashwilson/hubot-greetings.git"
+  },
+
+  "bugs": {
+    "url": "https://github.com/smashwilson/hubot-greetings/issues"
+  },
+
+  "dependencies": {
+    "coffee-script": "~1.6"
+  },
+
+  "devDependencies": {
+    "mocha": "*",
+    "chai": "*",
+    "sinon-chai": "*",
+    "sinon": "*"
+  },
+
+  "main": "index.coffee",
+
+  "scripts": {
+    "test": "script/test"
+  }
+}
