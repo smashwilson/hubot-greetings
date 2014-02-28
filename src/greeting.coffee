@@ -5,7 +5,7 @@
 #   None
 #
 # Configuration:
-#   HUBOT_GREETING_FFA - If set, any user can set any other user's greeting.
+#   HUBOT_GREETINGS_FFA - If set, any user can set any other user's greeting.
 #
 # Commands:
 #   hubot greet <name> - Test out <name>'s current greeting; can be "me" or "yourself".
@@ -17,7 +17,7 @@
 # Author:
 #   smashwilson
 
-freeForAll = process.env.HUBOT_GREETING_FFA?
+freeForAll = process.env.HUBOT_GREETINGS_FFA?
 
 GREETING_ROLE = 'greeting czar'
 
@@ -54,8 +54,7 @@ module.exports = (robot) ->
 
   verifyPermission = (msg, target) ->
     return true if freeForAll or msg.message.user.name is target
-    user = robot.brain.userForName()
-    if robot.auth.hasRole msg.message.user.name, GREETING_ROLE
+    if robot.auth.hasRole(msg.message.user, GREETING_ROLE)
       true
     else
       msg.reply "I can't do that, you're not a #{GREETING_ROLE}!"
