@@ -58,6 +58,7 @@ module.exports = (robot) ->
       true
     else
       msg.reply "I can't do that, you're not a #{GREETING_ROLE}!"
+      msg.reply "Ask your admin to run '#{robot.name}: #{msg.message.user.name} has #{GREETING_ROLE} role' so you can."
       false
 
   robot.respond /greet (\S+) with (.+)/i, (msg) ->
