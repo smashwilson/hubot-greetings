@@ -5,7 +5,7 @@
 #   None
 #
 # Configuration:
-#   None
+#   HUBOT_GREETINGS_FFA - If set, any user can set any other user's greeting.
 #
 # Commands:
 #   hubot greet <name> - Test out <name>'s current greeting; can be "me" or "yourself".
@@ -16,6 +16,10 @@
 #
 # Author:
 #   smashwilson
+
+freeForAll = process.env.HUBOT_GREETINGS_FFA?
+
+GREETING_ROLE = 'greeting czar'
 
 module.exports = (robot) ->
 
@@ -48,8 +52,18 @@ module.exports = (robot) ->
     # Set as some user, whether in the room or not
     return match
 
+  verifyPermission = (msg, target) ->
+    return true if freeForAll or msg.message.user.name is target
+    if robot.auth.hasRole(msg.message.user, GREETING_ROLE)
+      true
+    else
+      msg.reply "I can't do that, you're not a #{GREETING_ROLE}!"
+      false
+
   robot.respond /greet (\S+) with (.+)/i, (msg) ->
     target = chooseTarget msg, msg.match[1]
+    return unless verifyPermission msg, target
+
     greeting = msg.match[2]
     withGreetings target, (greetings) ->
       greetings.push greeting
@@ -69,6 +83,8 @@ module.exports = (robot) ->
 
   robot.respond /don\'t greet (\S+) with (.+)/i, (msg) ->
     target = chooseTarget msg, msg.match[1]
+    return unless verifyPermission msg, target
+
     greeting = msg.match[2]
     found = false
     withGreetings target, (greetings) ->
@@ -88,6 +104,8 @@ module.exports = (robot) ->
 
   robot.respond /forget (\S+)('s)? greetings$/i, (msg) ->
     target = chooseTarget msg, msg.match[1]
+    return unless verifyPermission msg, target
+
     withGreetings target, (greetings) ->
       msg.reply "Forgetting #{greetings.length} greetings."
       []
