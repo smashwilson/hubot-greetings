@@ -54,8 +54,8 @@ module.exports = (robot) ->
 
   verifyPermission = (msg, target) ->
     return true if freeForAll or msg.message.user.name is target
-    user = robot.brain.userForName target
-    if user? and user.roles? and GREETING_ROLE in user.roles
+    user = robot.brain.userForName()
+    if robot.auth.hasRole msg.message.user.name, GREETING_ROLE
       true
     else
       msg.reply "I can't do that, you're not a #{GREETING_ROLE}!"
